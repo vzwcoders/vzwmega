@@ -1,0 +1,1 @@
+[{"letter":"75","frequency":"80" },{"letter":"85","frequency":"3" },{"letter":"90","frequency":"799" },{"letter":"90","frequency":"799" },{"letter":"100","frequency":"3608" },{"letter":"105","frequency":"10000" }]
