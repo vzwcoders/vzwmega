@@ -24,8 +24,13 @@ public class DeleteRestrictedValues {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		System.out.println("Started Running DeleteRestrictedValues...Verzion X0001");
+			if(args == null || args.length <2){
+				System.out.println("Usage : Please provide <Process Id> and <Properties Path>");
+				System.exit(0);
+			}
+			String props = args[1];
 		Metrics metrics = new Metrics();
-		
 		metrics.setSubProcessId("FilteringProcess");
 		metrics.setStartTime(new Timestamp( System.currentTimeMillis()));
 		try
@@ -40,6 +45,9 @@ public class DeleteRestrictedValues {
 			Set<String> custmerIdsSet = null;
 			Set<String> webSitesSet = null;
 			metrics.setProcessId(processId);
+			System.out.println("Init Properties...."+props);
+			PropertyFileLoader.init(props);
+			System.out.println("Complete Init Properties....");
 			String customerIds = PropertyFileLoader.getPropertyValue("customerIds");
 			if(null != customerIds){
 				customerIdsList = customerIds.split(",");

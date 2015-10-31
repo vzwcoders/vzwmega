@@ -9,17 +9,20 @@ public class PropertyFileLoader {
 
 	public static Properties prop= null;
 	public static String getPropertyValue(String key){
-	
+		if(null != prop && null != prop.getProperty(key)){
+			return prop.getProperty(key).trim();
+		}else{
+			return null;
+		}
+
+	}
+	public static void init(String propsFile) {
 		InputStream input = null;
-		
-	
 		try {
 			if(null == prop){
 				
 				prop = new Properties();
-				input = new FileInputStream("D:/BatchProcess.properties");
-		
-				// load a properties file
+				input = new FileInputStream(propsFile);
 				prop.load(input);
 			}
 			
@@ -35,11 +38,5 @@ public class PropertyFileLoader {
 				}
 			}
 		}
-		if(null != prop && null != prop.getProperty(key)){
-			return prop.getProperty(key).trim();
-		}else{
-			return null;
-		}
-
 	}
 }

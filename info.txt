@@ -1,0 +1,11 @@
+%1 Process Id %2 Table to dump %3 Batch file %4 Script file to load 
+runMainProcess.bat UDRDAT_2015_10_31_13_45_30 udrs d:/BatchProcess1.properties d:/production/scripts/script1.sql
+
+set PATH=%PATH%;"C:\Program Files (x86)\CloudFoundry"
+set HTTP_PROXY=proxy.ebiz.verizon.com
+
+CD D:\Production\scripts
+runMainProcess.bat UDRDATPART1_2015_10_31_15_57_30 udrs d:/BatchProcess1.properties d:/production/scripts/script1.sql
+runMainProcess.bat UDRDATPART2_2015_10_31_15_57_30 udrs1 d:/BatchProcess2.properties d:/production/scripts/script2.sql
+runMainProcess.bat UDRDATPART3_2015_10_31_15_57_30 udrs1 d:/BatchProcess3.properties d:/production/scripts/script3.sql
+runMainProcess.bat UDRDATPART4_2015_10_31_15_57_30 udrs1 d:/BatchProcess4.properties d:/production/scripts/script4.sql

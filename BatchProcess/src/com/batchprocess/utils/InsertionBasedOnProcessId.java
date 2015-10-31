@@ -11,7 +11,7 @@ import com.batchprocess.vo.Metrics;
 
 public class InsertionBasedOnProcessId {
 
-	public static void insertDataBasedOnTableName(String tableName, Metrics metrics){
+	public static void insertDataBasedOnTableName(String tableName, Metrics metrics, String dumpTableName){
 		Connection conn = null;
 		Statement stmt = null;
 		PreparedStatement pstmtCreateTable = null;
@@ -23,11 +23,11 @@ public class InsertionBasedOnProcessId {
 		try {
 			conn = DBConnection.getConnection();
 			stmt = conn.createStatement();
-			rs = stmt
-					.executeQuery("select custid,sum(udr_size) as size from udrs group by custid");
+			String QUERY="select custid,sum(udr_size) as size from "+dumpTableName+" group by custid";
+			System.out.println("Executing query "+QUERY);
+			rs = stmt.executeQuery(QUERY);
 			long startTime = System.currentTimeMillis();
 			int custId = 0;
-
 			long udrSize = 0;
 
 			String createTableCheckQuery = PropertyFileLoader
@@ -35,7 +35,7 @@ public class InsertionBasedOnProcessId {
 			
 			String insertTableQuery = PropertyFileLoader
 					.getPropertyValue("dailyTableInsertQuery").replace("TABLE_NAME", tableName);
-			
+			System.out.println("Insert able query "+insertTableQuery);
 			String updateTableQuery = PropertyFileLoader
 					.getPropertyValue("updateDailyTableQuery").replace("TABLE_NAME", tableName);
 			pstmtCreateTable = conn.prepareStatement(createTableCheckQuery);
@@ -45,37 +45,42 @@ public class InsertionBasedOnProcessId {
 			int bucketNum = 0;
 			boolean createTableCheck = false;
 			int updateRecStatus = 0;
+			if(!createTableCheck){
+				try {
+					pstmtCreateTable.execute();
+				} catch (Exception e1) {
+				}
+				createTableCheck=true;
+			}
 			while (rs.next()) {
 				custId = rs.getInt("custid");
 				udrSize = rs.getLong("size");
 				bucketNum = custId % 10;
-
-				if(!createTableCheck){
-					try {
-						pstmtCreateTable.execute();
-					} catch (Exception e1) {
-					}
-					createTableCheck=true;
-				}
-				
 				pstmtUpdateTable.setLong(1, udrSize);
 				pstmtUpdateTable.setInt(2, custId);
 				pstmtUpdateTable.setInt(3, bucketNum);
 				updateRecStatus = pstmtUpdateTable.executeUpdate();
-				
 				if(updateRecStatus == 0){
 					pstmtInsertTable.setInt(1, custId);
 					pstmtInsertTable.setLong(2, udrSize);
 					pstmtInsertTable.setInt(3, bucketNum);
-	
 					try {
 						pstmtInsertTable.executeUpdate();
 						successRowCount++;
 					} catch (Exception e) {
-						failureRowCount++;
+						
 						System.out.println("Error occured for :" + custId
 								+ " --> bucknum :" + bucketNum);
-						e.printStackTrace();
+						//e.printStackTrace();
+						try{
+							System.out.println("Updating row");
+						updateRecStatus = pstmtUpdateTable.executeUpdate();
+						successRowCount++;
+						}catch(Exception e1) {
+							//ignore for now
+							failureRowCount++;
+							System.out.println("Got duplicat row while update");
+						}
 					}
 				}else{
 					successRowCount++;

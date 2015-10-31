@@ -1,0 +1,1 @@
+LOAD DATA LOCAL INFILE 'D:\\validFile-3.csv' INTO TABLE udrs2 FIELDS TERMINATED BY ',' (custid,udr_size,start_time,endi_time,website,dvcid);

@@ -9,12 +9,19 @@ import java.sql.Timestamp;
 
 import com.batchprocess.connection.DBConnection;
 import com.batchprocess.utils.MetricsUtils;
+import com.batchprocess.utils.PropertyFileLoader;
 import com.batchprocess.vo.Metrics;
 
 
 public class InsertToAlertTableProcess {
 
 	public static void main(String[] args) {
+		System.out.println("Started Running InsertToAlertTableProcess...Verzion X0001");
+		if(args == null || args.length <2){
+			System.out.println("Usage : Please provide <Process Id> , <BUCKET ID> and <Properties Path>");
+			System.exit(0);
+		}
+		String sBucket = args[1];
 		Connection conn = null;
 		Statement stmt = null;
 		PreparedStatement pstmt = null;
@@ -23,21 +30,11 @@ public class InsertToAlertTableProcess {
 		int j = 0;
 		int typ = 0;
 		String processId=args[0];
-		int bucketVal=Integer.parseInt(args[1]);
-		
+		int bucketVal=Integer.parseInt(sBucket);
+		String propsFile=args[2];
 		
 		try {
-			// Register JDBC driver
-			/*Class.forName("com.mysql.jdbc.Driver").newInstance();
-			// Open a connection
-			System.out.println("Connecting to a selected database...");
-			conn = DriverManager
-					.getConnection("jdbc:mysql://localhost/vzusages?"
-							+ "user=root&password=hackathon");
-			System.out.println("Connected database successfully...");*/
-  
-			// Execute a query
-			
+			PropertyFileLoader.init(propsFile);			
 			conn=DBConnection.getConnection();
 			stmt = conn.createStatement();
 			
