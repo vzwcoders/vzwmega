@@ -5,9 +5,4 @@ start java  com.verizon.hackathon.InsertToAlertTableProcess  %1 1 %3
 start java  com.verizon.hackathon.InsertToAlertTableProcess  %1 2 %3
 start java  com.verizon.hackathon.InsertToAlertTableProcess  %1 3 %3
 start java  com.verizon.hackathon.InsertToAlertTableProcess  %1 4 %3
-start java  com.verizon.hackathon.InsertToAlertTableProcess  %1 5 %3
-start java  com.verizon.hackathon.InsertToAlertTableProcess  %1 6 %3
-start java  com.verizon.hackathon.InsertToAlertTableProcess  %1 7 %3
-start java  com.verizon.hackathon.InsertToAlertTableProcess  %1 8 %3
-start java  com.verizon.hackathon.InsertToAlertTableProcess  %1 9 %3
 start java  com.batchprocess.processor.DailyTableInsertion  %1 %2 %3 

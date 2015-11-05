@@ -31,8 +31,7 @@ table,th,td
 </thead>
 <tbody>
 <%
-	
-	List<CustAlert> l=AlertingProcess.getAlerts();
+		List<CustAlert> l=AlertingProcess.getAlerts();
 if(l!=null && l.size()>0){
 	for(CustAlert c:l){
 %>

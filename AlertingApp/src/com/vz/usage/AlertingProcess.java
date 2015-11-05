@@ -30,7 +30,7 @@ public class AlertingProcess {
 		      ResultSet rs = psstm.executeQuery();
 		      List<CustAlert> alertUsers=new ArrayList<CustAlert>();
 		      while(rs.next()){
-		    	  alertUsers.add(new CustAlert(rs.getInt("custid"), rs.getInt("typ"), rs.getString("alert_time"), rs.getInt("usasize")));
+		    	  alertUsers.add(new CustAlert(rs.getInt("custid"), rs.getInt("typ"), rs.getString("alert_time"), rs.getLong("usasize")));
 		      }
 		      System.out.println("Result "+alertUsers);
 		      new AlertProcessed(alertUsers).start();

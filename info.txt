@@ -1,11 +1,32 @@
 %1 Process Id %2 Table to dump %3 Batch file %4 Script file to load 
 runMainProcess.bat UDRDAT_2015_10_31_13_45_30 udrs d:/BatchProcess1.properties d:/production/scripts/script1.sql
+CREATE TABLE `udrs3` (
+  `udr_id` int(11) NOT NULL AUTO_INCREMENT,
+  `custid` int(11) DEFAULT NULL,
+  `udr_size` int(11) DEFAULT NULL,
+  `start_time` datetime DEFAULT NULL,
+  `endi_time` datetime DEFAULT NULL,
+  `website` varchar(50) DEFAULT NULL,
+  `dvcid` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`udr_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2555866 DEFAULT CHARSET=utf8;
 
+"C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql" --user=root --password=root --database=vzusages 
+INSERT INTO vzusages.alerting (idalerting, custid, typ, usasize, alert_time, bucket, issent) VALUES ( 12, 75, 156789, '2015-01-02', 1, 0); 
+UPDATE alerting SET issent=0;
 set PATH=%PATH%;"C:\Program Files (x86)\CloudFoundry"
 set HTTP_PROXY=proxy.ebiz.verizon.com
+cf push vzalert -p VZAlert.war
 
 CD D:\Production\scripts
-runMainProcess.bat UDRDATPART1_2015_10_31_15_57_30 udrs d:/BatchProcess1.properties d:/production/scripts/script1.sql
-runMainProcess.bat UDRDATPART2_2015_10_31_15_57_30 udrs1 d:/BatchProcess2.properties d:/production/scripts/script2.sql
-runMainProcess.bat UDRDATPART3_2015_10_31_15_57_30 udrs1 d:/BatchProcess3.properties d:/production/scripts/script3.sql
-runMainProcess.bat UDRDATPART4_2015_10_31_15_57_30 udrs1 d:/BatchProcess4.properties d:/production/scripts/script4.sql
+runMainProcess.bat UDRDATPART1_2015_10_31_17_17_30 udrs d:/BatchProcess1.properties d:/production/scripts/script1.sql
+runMainProcess.bat UDRDATPART2_2015_10_31_17_17_30 udrs1 d:/BatchProcess2.properties d:/production/scripts/script2.sql
+runMainProcess.bat UDRDATPART3_2015_10_31_17_17_30 udrs2 d:/BatchProcess3.properties d:/production/scripts/script3.sql
+runMainProcess.bat UDRDATPART4_2015_10_31_17_17_30 udrs3 d:/BatchProcess4.properties d:/production/scripts/script4.sqlm
+
+select custid,udr_size , CASE
+when udr_size>=427400 and udr_size<1000000 then 70
+when udr_size>=1000000 and udr_size<10000000 then 75
+when udr_size>=10000000 and udr_size<100000000 then 80
+when udr_size>=100000000 and udr_size<1000000000 then 90  END as typ
+from monthly_data_usage where bucket_id=8
