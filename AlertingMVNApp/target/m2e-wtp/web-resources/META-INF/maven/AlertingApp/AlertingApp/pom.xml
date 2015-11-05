@@ -9,29 +9,6 @@
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
-     <plugin>
-          <groupId>org.cloudfoundry</groupId>
-          <artifactId>cf-maven-plugin</artifactId>
-          <version>1.1.2</version>
-      </plugin>
-       <plugin>
-          <groupId>org.cloudfoundry</groupId>
-          <artifactId>cf-maven-plugin</artifactId>
-          <version>1.1.2</version>
-          <configuration>
-              <target>http://api.run.pivotal.io</target>
-              <org>VZW-Coders</org>
-              <space>development</space>
-              <appname>vzalerts1</appname>
-              <url>cfapps.io</url>
-              <memory>512</memory>
-              <instances>1</instances>
-              <env>
-                  <ENV-VAR-NAME>env-var-value</ENV-VAR-NAME>
-              </env>
-              
-          </configuration>
-      </plugin>
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
         <version>2.4</version>
